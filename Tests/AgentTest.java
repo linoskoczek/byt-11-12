@@ -1,5 +1,12 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class AgentTest {
     private List<Agent> agents = new LinkedList<>();
@@ -9,24 +16,29 @@ public class AgentTest {
         agents.add(new Agent(
             "Name1", "Surname1",
             LocalDate.of(1996, 3, 15),
-            "Some dentist dude.", DENTIST
+            "Some dentist dude.", Specialization.DENTIST
         ));
         agents.add(new Agent(
             "Name2", "Surname2",
             LocalDate.of(1997, 8, 5),
-            "Some orthopedist dude.", ORTHOPEDIST
+            "Some orthopedist dude.", Specialization.ORTHOPEDIST
         ));
         agents.add(new Agent(
-            "Name3", "Surname3",
-            LocalDate.of(1993, 9, 22),
-            "Some pediatrician dude.", PEDIATRICIAN
+                "Name3", "Surname3",
+                LocalDate.of(1993, 9, 22),
+                "Some pediatrician dude.", Specialization.PEDIATRICIAN
         ));
+    }
+
+    @After
+    public void tearDown(){
+        Agent.getListOfAgents().clear();
     }
 
     @Test
     public void getListOfAgents() {
         List<Agent> otherAgents = Agent.getListOfAgents();
-        assertEquals(3, otherAgents.size());
+        assertEquals(agents.size(), otherAgents.size());
     }
 
     @Test
@@ -35,27 +47,27 @@ public class AgentTest {
 
     @Test
     public void getDescription() {
-        assertEquals("Some dentist dude.", agents[0].getDescription());
-        assertEquals("Some orthopedist dude.", agents[1].getDescription());
-        assertEquals("Some pediatrician dude.", agents[2].getDescription());
+        assertEquals("Some dentist dude.", agents.get(0).getDescription());
+        assertEquals("Some orthopedist dude.", agents.get(1).getDescription());
+        assertEquals("Some pediatrician dude.", agents.get(2).getDescription());
     }
 
     @Test
     public void getSpecialization() {
-        assertEquals(DENTIST, agents[0].getSpecialization());
-        assertEquals(ORTHOPEDIST, agents[1].getSpecialization());
-        assertEquals(PEDIATRICIAN, agents[2].getSpecialization());
+        assertEquals(Specialization.DENTIST, agents.get(0).getSpecialization());
+        assertEquals(Specialization.ORTHOPEDIST, agents.get(1).getSpecialization());
+        assertEquals(Specialization.PEDIATRICIAN, agents.get(2).getSpecialization());
     }
 
     @Test
     public void setDescription() {
-        agents[0].setDescription("Some pediatrician dude.");
-        assertEquals("Some pediatrician dude.", agents[0].getDescription());
+        agents.get(0).setDescription("Some pediatrician dude.");
+        assertEquals("Some pediatrician dude.", agents.get(2).getDescription());
     }
 
     @Test
     public void setSpecialization() {
-        agents[0].setSpecialization(PEDIATRICIAN);
-        assertEquals(PEDIATRICIAN, agents[0].getSpecialization());
+        agents.get(0).setSpecialization(Specialization.PEDIATRICIAN);
+        assertEquals(Specialization.PEDIATRICIAN, agents.get(0).getSpecialization());
     }
 }

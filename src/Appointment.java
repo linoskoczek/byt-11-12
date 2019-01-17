@@ -27,7 +27,7 @@ public class Appointment implements Comparable<Appointment> {
 
     public long getDuration() {
         return timeFrom.until(timeTo, ChronoUnit.MINUTES);
-    } //TODO: In tests check if value can be negative.
+    }
 
     public Agent getAgent() {
         return agent;

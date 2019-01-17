@@ -1,9 +1,17 @@
+import Exceptions.PriceLowerThanZeroException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class AppointmentTest {
     private Agent agent;
-    private Clinet agent;
+    private Client client;
     private Appointment app1;
     private Appointment app2;
 
@@ -12,18 +20,18 @@ public class AppointmentTest {
         agent = new Agent(
             "AgentName", "AgentSurname",
             LocalDate.of(1996, 3, 15),
-            "Some dentist dude.", DENTIST
+            "Some dentist dude.", Specialization.DENTIST
         );
         client = new Client(
             "ClientName", "ClientSurname",
-            LocalDate.of(1995, 3, 15),
+            LocalDate.of(1995, 3, 15)
         );
         app1 = new Appointment(
             agent, client,
             LocalDateTime.of(2019, 3, 22, 15, 0),
             LocalDateTime.of(2019, 3, 22, 16, 0)
         );
-        app1 = new Appointment(
+        app2 = new Appointment(
             agent, client,
             LocalDateTime.of(2019, 3, 23, 12, 0),
             LocalDateTime.of(2019, 3, 23, 11, 0)
@@ -31,7 +39,7 @@ public class AppointmentTest {
     }
 
     @Test
-    public void generateRecepit() {
+    public void generateRecepit() throws PriceLowerThanZeroException {
         Receipt receipt = app1.generateRecepit(new BigDecimal(100), PaymentMethod.CARD);
         assertEquals(new BigDecimal(100), receipt.getPrice());
         assertEquals(PaymentMethod.CARD, receipt.getPaymentMethod());
@@ -40,7 +48,7 @@ public class AppointmentTest {
     @Test
     public void getDuration() {
         assertEquals(60, app1.getDuration());
-        assertEquals(-60, app2.getDuration());
+    }
 
     @Test
     public void getAgent() {
